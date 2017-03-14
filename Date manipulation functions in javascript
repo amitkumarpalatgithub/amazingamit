@@ -1,0 +1,261 @@
+var increasecount=0;//variable for date increment
+var decreasecount=0;//variable for date decrement
+//###############################################################################################################################################################################
+function updateClock() {
+    var now = new Date(), // current date
+        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // you get the idea
+        time = now.getHours() + ':' + now.getMinutes()+ ':' + now.getSeconds(); // again, you get the idea
+
+        // a cleaner way than string concatenation
+        date = [now.getDate(), 
+                months[now.getMonth()],
+                now.getFullYear()].join(' ');
+
+    // set the content of the element with the ID time to the formatted string
+    document.getElementById('date-time').innerHTML = [date, time].join(' / ');
+
+    // call this function again in 1000ms
+    setTimeout(updateClock, 1000);
+}
+
+function increase_week() {
+
+var cur = document.getElementById('startdateid').value;
+var now = new Date();
+
+//date = [now.getDate(), months[now.getMonth()] , now.getFullYear()].join(' ');
+document.getElementById('startdateid').value=[now.getFullYear(),now.getMonth(),now.getDate()].join('-');
+//now++;
+document.getElementById('enddateid').value=[now.getFullYear(),now.getMonth(),now.getDate()].join('-');
+
+}
+//############################################################################################################################################################################
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@This function increases the date by one week@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+function increase_week() {
+
+   
+    var cur = document.getElementById('enddateid').value;
+    if(!validateInputDate(cur))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    }
+    var startdate = document.getElementById('startdateid').value;
+    if(!validateInputDate(startdate))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    }  
+    increasecount=parseInt(increasecount)+parseInt(1); 
+    var now = new Date(cur);
+    var nextweek = new Date(startdate);
+    now=new Date(now.getTime() + 7*24*60*60*1000);
+    nextweek = new Date(nextweek.getTime() + 7*24*60*60*1000);
+    //***********************************************************************************************
+    if(now.getMonth() < 9)
+    {
+        //alert("now.getMonth"+now.getMonth());
+        from_month = [0,now.getMonth()+1].join('');
+    }
+    else
+    {
+        //alert("now.getMonth"+now.getMonth());
+        from_month= now.getMonth()+1;
+    }
+    if(now.getDate()<10)
+    {
+        //alert("now.getDate"+now.getDate());
+        from_date=[0,now.getDate()].join('');
+    }
+    else
+    {   
+        //alert("now.getDate"+now.getDate());
+        from_date=now.getDate();
+    }
+    //***********************************************************************************************
+    if(nextweek.getMonth()<9)
+    {
+        //alert("nextweek.getMonth"+nextweek.getMonth());
+        to_month = [0,nextweek.getMonth()+1].join('');
+    }
+    else
+    {
+        //alert("nextweek.getMonth"+nextweek.getMonth());
+        to_month=nextweek.getMonth()+1;
+    }
+    if(nextweek.getDate()<10)
+    {
+        //alert("nextweek.getDate"+nextweek.getDate());
+        to_date=[0,nextweek.getDate()].join('');
+    }
+    else
+    {
+        //alert("nextweek.getDate"+nextweek.getDate());
+        to_date=nextweek.getDate();
+    }//*********************************************************************************************
+    document.getElementById('enddateid').value=[now.getFullYear(),from_month,from_date].join('-');
+    document.getElementById('startdateid').value=[nextweek.getFullYear(),to_month,to_date].join('-');
+
+}
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@This function decreases the date by 1 week@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+function decrease_week() {
+
+   
+    var cur = document.getElementById('startdateid').value;
+    if(!validateInputDate(cur))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    } 
+    var enddate = document.getElementById('enddateid').value;
+    if(!validateInputDate(enddate))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    }     
+    decreasecount=parseInt(decreasecount)+parseInt(1); 
+    var now = new Date(enddate);
+    var previousweek = new Date(cur);
+    previousweek = new Date(previousweek.getTime()-7*24*60*60*1000);
+    now = new Date(now.getTime()-7*24*60*60*1000);
+    //***********************************************************************************
+    if(now.getMonth() < 9)
+    {
+       // alert("NOW.getmonth"+now.getMonth());
+        to_month = [0,now.getMonth()+1].join('');
+    }
+    else
+    {
+        //alert("NOW.getmonth"+now.getMonth());
+        to_month = now.getMonth()+1;
+    }
+    if(now.getDate()<10)
+    {   
+        //alert("now.date"+now.gatdate());
+        to_date=[0,now.getDate()].join('');
+    }
+    else
+    {   
+        //alert("now.date"+now.getDate());
+        to_date=now.getDate();
+    }
+    //*************************************************************************************
+    if(previousweek.getMonth()<9)
+    {
+        //alert("PREVIOUS.month"+previousweek.getMonth());
+        from_month = [0,previousweek.getMonth()+1].join('');
+    }
+    else
+    {
+         //alert("PREVIOUS.month"+previousweek.getMonth());
+        from_month=previousweek.getMonth()+1;
+    }
+    if(previousweek.getDate()<10)
+    {
+        //alert("previousweek.date"+previousweek.getDate());
+        from_date=[0,previousweek.getDate()].join('');
+    }
+    else
+    {   //alert("previousweek.date"+previousweek.getDate());
+        from_date=previousweek.getDate();
+    }
+    //***************************************************************************************
+    document.getElementById('enddateid').value=[now.getFullYear(),to_month,to_date].join('-');
+    document.getElementById('startdateid').value=[previousweek.getFullYear(),from_month,from_date].join('-');
+
+}
+
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@This function validates the Input date@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+function isValidDate(date) {
+        var valid = true;
+
+        date = date.replace(/-/g, '');
+        //alert('date-string::'+date)
+        var month = parseInt(date.substring(4, 6),10);
+        var day   = parseInt(date.substring(6, 8),10);
+        var year  = parseInt(date.substring(0, 4),10);
+        //alert("year-"+year);
+        //alert("month-"+month);
+        //alert("day-"+day);
+        if(isNaN(month)||isNaN(day)||isNaN(year))
+        {
+            return false;
+        }
+        if((month < 1) || (month > 12)) valid = false;
+        else if((day < 1) || (day > 31)) valid = false;
+        else if(((month == 4) || (month == 6) || (month == 9) || (month == 11)) && (day > 30)) valid = false;
+        else if((month == 2) && (((year % 400) == 0) || ((year % 4) == 0)) && ((year % 100) != 0) && (day > 29)) valid = false;
+        else if((month == 2) && ((year % 100) == 0) && (day > 29)) valid = false;
+        else if((month == 2) && (day > 28)) valid = false;
+        
+        return valid;
+}
+
+function validateInputDate(arg) { 
+        var stri = new String(arg);
+        //alert(stri);
+        if(stri.length==10)
+        {
+            //alert(stri.length);
+            //alert( isValidDate(cur.toString().substring(0,10).toString()))
+            return isValidDate(stri.substring(0,10));
+        }
+        else
+        {
+            //alert("wrong format\nEnter th date in yyyy-mm-dd format\n");
+            return false;
+        }
+}
+//####################################################################################################################################################################
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@This is an experimental function@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+function increase_month()
+{
+    var startdate = document.getElementById('startdateid').value;
+    if(!validateInputDate(cur))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    } 
+    var enddate = document.getElementById('enddateid').value;
+    if(!validateInputDate(enddate))
+    {
+        alert("Please enter the date in correct format:\n yyyy-mm-dd");
+        return false;
+    }     
+    startdateid=new Date(startdate);
+    enddate=new Date(enddate);
+
+
+
+
+
+
+}
+
+function decrease_month()
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function callit()
+{
+    var arg=document.getElementById('startdateid').value;
+    if(!validateInputDate(arg))
+    {
+        alert("notok");
+        return false;
+    }
+ alert("ok");
+ increase_week();
+}
